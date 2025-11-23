@@ -44,10 +44,7 @@ func validateMultipleOf(fl validator.FieldLevel) bool {
 }
 
 func validateHostPort(fl validator.FieldLevel) bool {
-	param := strings.TrimSpace(fl.Param())
-	if param == "" {
-		return false
-	}
-	_, _, err := net.SplitHostPort(param)
+	value := fl.Field().String()
+	_, _, err := net.SplitHostPort(value)
 	return err == nil
 }
