@@ -14,6 +14,9 @@ import (
 func RegisterChecks(v *validator.Validate) {
 	_ = v.RegisterValidation("multipleof", validateMultipleOf)
 	_ = v.RegisterValidation("host_port", validateHostPort)
+	_ = v.RegisterValidation("host_port", validateHostPort)
+	_ = v.RegisterValidation("loglevel", validateLogLevel)
+	_ = v.RegisterValidation("logtype", validateLogType)
 
 }
 
@@ -47,4 +50,24 @@ func validateHostPort(fl validator.FieldLevel) bool {
 	value := fl.Field().String()
 	_, _, err := net.SplitHostPort(value)
 	return err == nil
+}
+
+func validateLogLevel(fl validator.FieldLevel) bool {
+	level := fl.Field().String()
+	switch level {
+	case "info", "debug", "warn", "error":
+		return true
+	default:
+		return false
+	}
+}
+
+func validateLogType(fl validator.FieldLevel) bool {
+	logType := fl.Field().String()
+	switch logType {
+	case "json", "text", "console":
+		return true
+	default:
+		return false
+	}
 }
