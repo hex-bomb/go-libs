@@ -15,8 +15,7 @@ var (
 	// appName is an application build name
 	appName = "unknown"
 	// appVersion is an application build version.
-	appVersion     = "development"
-	ConfigFileFlag = "c"
+	appVersion = "development"
 )
 
 // AppName returns an application build name
