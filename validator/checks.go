@@ -2,6 +2,7 @@ package validator
 
 import (
 	"math"
+	"net"
 	"reflect"
 	"strconv"
 	"strings"
@@ -12,6 +13,8 @@ import (
 // RegisterChecks реистрирует кастомные проверки тегов структур
 func RegisterChecks(v *validator.Validate) {
 	_ = v.RegisterValidation("multipleof", validateMultipleOf)
+	_ = v.RegisterValidation("host_port", validateHostPort)
+
 }
 
 // проверка что делится на 10
@@ -38,4 +41,13 @@ func validateMultipleOf(fl validator.FieldLevel) bool {
 	default:
 		return false
 	}
+}
+
+func validateHostPort(fl validator.FieldLevel) bool {
+	param := strings.TrimSpace(fl.Param())
+	if param == "" {
+		return false
+	}
+	_, _, err := net.SplitHostPort(param)
+	return err == nil
 }
